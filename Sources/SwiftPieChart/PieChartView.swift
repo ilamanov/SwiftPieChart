@@ -34,7 +34,7 @@ public struct PieChartView: View {
         return tempSlices
     }
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { geometry in
             VStack{
                 ZStack{
