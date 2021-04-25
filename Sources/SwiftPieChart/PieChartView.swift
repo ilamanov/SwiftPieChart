@@ -13,11 +13,11 @@ public struct PieChartView: View {
     public let names: [String]
     public let formatter: (Double) -> String
     
-    public var colors: [Color] = [Color.blue, Color.green, Color.orange]
-    public var backgroundColor: Color = Color(red: 21 / 255, green: 24 / 255, blue: 30 / 255, opacity: 1.0)
+    public var colors: [Color]
+    public var backgroundColor: Color
     
-    public var widthFraction: CGFloat = 0.75
-    public var innerRadiusFraction: CGFloat = 0.60
+    public var widthFraction: CGFloat
+    public var innerRadiusFraction: CGFloat
     
     @State private var activeIndex: Int = -1
     
@@ -32,6 +32,17 @@ public struct PieChartView: View {
             endDeg += degrees
         }
         return tempSlices
+    }
+    
+    public init(values:[Double], names: [String], formatter: @escaping (Double) -> String, colors: [Color] = [Color.blue, Color.green, Color.orange], backgroundColor: Color = Color(red: 21 / 255, green: 24 / 255, blue: 30 / 255, opacity: 1.0), widthFraction: CGFloat = 0.75, innerRadiusFraction: CGFloat = 0.60){
+        self.values = values
+        self.names = names
+        self.formatter = formatter
+        
+        self.colors = colors
+        self.backgroundColor = backgroundColor
+        self.widthFraction = widthFraction
+        self.innerRadiusFraction = innerRadiusFraction
     }
     
     public var body: some View {
