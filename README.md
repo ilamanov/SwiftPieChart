@@ -34,7 +34,8 @@ You can change the width of the pie chart by providing `widthFraction` parameter
 PieChartView(
     values: [1300, 500, 300],
     names: ["Rent", "Transport", "Education"],
-    formatter: {value in String(format: "$%.2f", value)}, widthFraction: 0.95)
+    formatter: {value in String(format: "$%.2f", value)},
+    widthFraction: 0.95)
 ```
 ![SwiftUI Pie Chart Wider](./Resources/demo_width.png "SwiftUI Pie Chart Wider")
 
