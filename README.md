@@ -27,6 +27,8 @@ In Xcode go to `File -> Swift Packages -> Add Package Dependency` and paste in t
 
 A demo iOS app shown in the gif above can be found at https://github.com/ilamanov/SwiftPieChartDemo
 
+## Code explanation
+
 ## Easy Customization
 
 You can change the width of the pie chart by providing `widthFraction` parameter:
@@ -59,5 +61,3 @@ PieChartView(
     backgroundColor: Color(red: 30 / 255, green: 54 / 255, blue: 14 / 255, opacity: 1.0))
 ```
 ![SwiftUI Pie Chart Alternate Colors](./Resources/demo_alternate_colors.png "SwiftUI Pie Chart Alternate Colors")
-
-## Code explanation
