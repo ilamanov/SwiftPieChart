@@ -8,7 +8,7 @@
 import SwiftUI
 
 @available(OSX 10.15, *)
-struct PieChartView: View {
+public struct PieChartView: View {
     let values: [Double]
     let names: [String]
     let formatter: (Double) -> String
