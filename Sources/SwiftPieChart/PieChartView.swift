@@ -15,7 +15,6 @@ public struct PieChartView: View {
     
     public var colors: [Color]
     public var backgroundColor: Color
-    
     public var labelColor: Color
     
     public var widthFraction: CGFloat
