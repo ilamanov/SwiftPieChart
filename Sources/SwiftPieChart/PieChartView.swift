@@ -16,6 +16,7 @@ public struct PieChartView: View {
     public var colors: [Color]
     public var backgroundColor: Color
     public var labelColor: Color
+    public var totalLabel: String
     
     public var widthFraction: CGFloat
     public var innerRadiusFraction: CGFloat
@@ -35,7 +36,7 @@ public struct PieChartView: View {
         return tempSlices
     }
     
-    public init(values:[Double], names: [String], formatter: @escaping (Double) -> String, colors: [Color] = [Color.blue, Color.green, Color.orange], backgroundColor: Color = Color(red: 21 / 255, green: 24 / 255, blue: 30 / 255, opacity: 1.0), labelColor: Color = Color.black, widthFraction: CGFloat = 0.75, innerRadiusFraction: CGFloat = 0.60){
+    public init(values:[Double], names: [String], formatter: @escaping (Double) -> String, colors: [Color] = [Color.blue, Color.green, Color.orange], backgroundColor: Color = Color(red: 21 / 255, green: 24 / 255, blue: 30 / 255, opacity: 1.0), labelColor: Color = Color.black, totalLabel: String = "Total", widthFraction: CGFloat = 0.75, innerRadiusFraction: CGFloat = 0.60){
         self.values = values
         self.names = names
         self.formatter = formatter
@@ -43,6 +44,7 @@ public struct PieChartView: View {
         self.colors = colors
         self.backgroundColor = backgroundColor
         self.labelColor = labelColor
+        self.totalLabel = totalLabel
         self.widthFraction = widthFraction
         self.innerRadiusFraction = innerRadiusFraction
     }
@@ -88,7 +90,7 @@ public struct PieChartView: View {
                         .frame(width: widthFraction * geometry.size.width * innerRadiusFraction, height: widthFraction * geometry.size.width * innerRadiusFraction)
                     
                     VStack {
-                        Text(self.activeIndex == -1 ? "Total" : names[self.activeIndex])
+                        Text(self.activeIndex == -1 ? totalLabel : names[self.activeIndex])
                             .font(.title)
                             .foregroundColor(Color.gray)
                         Text(self.formatter(self.activeIndex == -1 ? values.reduce(0, +) : values[self.activeIndex]))
