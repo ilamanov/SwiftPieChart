@@ -122,13 +122,15 @@ struct PieChartRows: View {
                     RoundedRectangle(cornerRadius: 5.0)
                         .fill(self.colors[i])
                         .frame(width: 20, height: 20)
-                    Text(self.names[i])
-                    Spacer()
+                    
                     HStack {
-                        Text(self.values[i])
+                        Text(self.names[i])
                         Text("(\(self.percents[i]))")
                             .foregroundColor(Color.gray)
                     }
+                    Spacer()
+                     Text(self.values[i])
+                    
                 }
             }
         }
