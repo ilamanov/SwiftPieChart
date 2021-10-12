@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 @available(OSX 10.15, *)
 public struct PieChartView: View {
     public let values: [Double]
@@ -20,6 +21,7 @@ public struct PieChartView: View {
     
     public var widthFraction: CGFloat
     public var innerRadiusFraction: CGFloat
+    
     
     @State private var activeIndex: Int = -1
     
@@ -122,9 +124,9 @@ struct PieChartRows: View {
                         .frame(width: 20, height: 20)
                     Text(self.names[i])
                     Spacer()
-                    VStack(alignment: .trailing) {
+                    HStack {
                         Text(self.values[i])
-                        Text(self.percents[i])
+                        Text("(\(self.percents[i]))")
                             .foregroundColor(Color.gray)
                     }
                 }
