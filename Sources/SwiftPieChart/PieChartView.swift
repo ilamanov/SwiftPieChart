@@ -24,6 +24,7 @@ public struct PieChartView: View {
     
     
     @State private var activeIndex: Int = -1
+    @State private var contentSize: CGSize = .zero
     
     var slices: [PieSliceData] {
         let sum = values.reduce(0, +)
@@ -101,10 +102,20 @@ public struct PieChartView: View {
                     
                 }
                 PieChartRows(colors: self.colors, names: self.names, values: self.values.map { self.formatter($0) }, percents: self.values.map { String(format: "%.0f%%", $0 * 100 / self.values.reduce(0, +)) })
+                    .padding(.top, 20)
+                
             }
-            .background(self.backgroundColor)
+            .background(
+                GeometryReader { geo -> Color in
+                    DispatchQueue.main.async {
+                        contentSize = geo.size
+                    }
+                    return self.backgroundColor
+                }
+            )
             .foregroundColor(self.labelColor)
-        }
+            
+        }.frame(height:contentSize.height)
     }
 }
 
@@ -129,12 +140,13 @@ struct PieChartRows: View {
                             .foregroundColor(Color.gray)
                     }
                     Spacer()
-                     Text(self.values[i])
-                    
+                    Text(self.values[i])
                 }
             }
         }
     }
+    
+    
 }
 
 @available(OSX 10.15.0, *)
