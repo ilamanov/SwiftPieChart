@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+
 @available(OSX 10.15, *)
 public struct PieChartView: View {
     public let values: [Double]
@@ -15,11 +16,15 @@ public struct PieChartView: View {
     
     public var colors: [Color]
     public var backgroundColor: Color
+    public var labelColor: Color
+    public var totalLabel: String
     
     public var widthFraction: CGFloat
     public var innerRadiusFraction: CGFloat
     
+    
     @State private var activeIndex: Int = -1
+    @State private var contentSize: CGSize = .zero
     
     var slices: [PieSliceData] {
         let sum = values.reduce(0, +)
@@ -34,13 +39,15 @@ public struct PieChartView: View {
         return tempSlices
     }
     
-    public init(values:[Double], names: [String], formatter: @escaping (Double) -> String, colors: [Color] = [Color.blue, Color.green, Color.orange], backgroundColor: Color = Color(red: 21 / 255, green: 24 / 255, blue: 30 / 255, opacity: 1.0), widthFraction: CGFloat = 0.75, innerRadiusFraction: CGFloat = 0.60){
+    public init(values:[Double], names: [String], formatter: @escaping (Double) -> String, colors: [Color] = [Color.blue, Color.green, Color.orange], backgroundColor: Color = Color(red: 21 / 255, green: 24 / 255, blue: 30 / 255, opacity: 1.0), labelColor: Color = Color.black, totalLabel: String = "Total", widthFraction: CGFloat = 0.75, innerRadiusFraction: CGFloat = 0.60){
         self.values = values
         self.names = names
         self.formatter = formatter
         
         self.colors = colors
         self.backgroundColor = backgroundColor
+        self.labelColor = labelColor
+        self.totalLabel = totalLabel
         self.widthFraction = widthFraction
         self.innerRadiusFraction = innerRadiusFraction
     }
@@ -49,7 +56,7 @@ public struct PieChartView: View {
         GeometryReader { geometry in
             VStack{
                 ZStack{
-                    ForEach(0..<self.values.count){ i in
+                    ForEach(0..<self.values.count, id:\.self){ i in
                         PieSlice(pieSliceData: self.slices[i])
                             .scaleEffect(self.activeIndex == i ? 1.03 : 1)
                             .animation(Animation.spring())
@@ -86,7 +93,7 @@ public struct PieChartView: View {
                         .frame(width: widthFraction * geometry.size.width * innerRadiusFraction, height: widthFraction * geometry.size.width * innerRadiusFraction)
                     
                     VStack {
-                        Text(self.activeIndex == -1 ? "Total" : names[self.activeIndex])
+                        Text(self.activeIndex == -1 ? totalLabel : names[self.activeIndex])
                             .font(.title)
                             .foregroundColor(Color.gray)
                         Text(self.formatter(self.activeIndex == -1 ? values.reduce(0, +) : values[self.activeIndex]))
@@ -95,10 +102,20 @@ public struct PieChartView: View {
                     
                 }
                 PieChartRows(colors: self.colors, names: self.names, values: self.values.map { self.formatter($0) }, percents: self.values.map { String(format: "%.0f%%", $0 * 100 / self.values.reduce(0, +)) })
+                    .padding(.top, 20)
+                
             }
-            .background(self.backgroundColor)
-            .foregroundColor(Color.white)
-        }
+            .background(
+                GeometryReader { geo -> Color in
+                    DispatchQueue.main.async {
+                        contentSize = geo.size
+                    }
+                    return self.backgroundColor
+                }
+            )
+            .foregroundColor(self.labelColor)
+            
+        }.frame(height:contentSize.height)
     }
 }
 
@@ -111,22 +128,25 @@ struct PieChartRows: View {
     
     var body: some View {
         VStack{
-            ForEach(0..<self.values.count){ i in
+            ForEach(0..<self.values.count, id: \.self){ i in
                 HStack {
                     RoundedRectangle(cornerRadius: 5.0)
                         .fill(self.colors[i])
                         .frame(width: 20, height: 20)
-                    Text(self.names[i])
-                    Spacer()
-                    VStack(alignment: .trailing) {
-                        Text(self.values[i])
-                        Text(self.percents[i])
+                    
+                    HStack {
+                        Text(self.names[i])
+                        Text("(\(self.percents[i]))")
                             .foregroundColor(Color.gray)
                     }
+                    Spacer()
+                    Text(self.values[i])
                 }
             }
         }
     }
+    
+    
 }
 
 @available(OSX 10.15.0, *)
