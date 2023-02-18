@@ -62,7 +62,7 @@ PieChartView(
 ```
 ![SwiftUI Pie Chart Alternate Colors](./Resources/demo_alternate_colors.png "SwiftUI Pie Chart Alternate Colors")
 
-You can provide text color as longside with background color. (textColor is white by default).
+You can provide text color alongside with background color. (textColor is white by default).
 Might be helpful when dealing with color schemes.
 ```swift
 struc SomeView: View {
