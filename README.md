@@ -61,3 +61,24 @@ PieChartView(
     backgroundColor: Color(red: 30 / 255, green: 54 / 255, blue: 14 / 255, opacity: 1.0))
 ```
 ![SwiftUI Pie Chart Alternate Colors](./Resources/demo_alternate_colors.png "SwiftUI Pie Chart Alternate Colors")
+
+You can provide text color alongside with background color. (textColor is white by default).
+Might be helpful when dealing with color schemes.
+```swift
+struc SomeView: View {
+    @Environment(\.colorScheme) var colorScheme
+
+    var body: some View {
+        ...
+        PieChartView(
+            values: [1300, 500, 300],
+            names: ["Rent", "Transport", "Education"],
+            formatter: {value in String(format: "$%.2f", value)},
+            colors: [Color.red, Color.purple, Color.orange],
+            backgroundColor: colorScheme == .dark ? .black : .white,
+            textColor: colorScheme == .dark ? .white : .black
+        )
+    }
+}
+```
+![SwiftUI Pie Chart TextColor](./Resources/demo_text_color.png "SwiftUI Pie Chart TextColor")
